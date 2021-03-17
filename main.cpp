@@ -1,7 +1,7 @@
 #include <iostream>
 
 int** fn_GenBomb(int* ip_BI);
-void Remv2DDyArr(int** i2p_Arr, int i_Row= 10);
+void fn_Remv2DDyArr(int** i2p_Arr, int i_Row= 10);
 void fn_ShowMap(int** i2p_Arr, int i_Row= 10, int i_Col= 10);
 
 int main(){
@@ -11,7 +11,7 @@ int main(){
     fn_ShowMap(i2p_Bomb);
 
 
-    Remv2DDyArr(i2p_Bomb);
+    fn_Remv2DDyArr(i2p_Bomb);
     delete [] ip_BI;
     return 0;
 }
@@ -31,32 +31,46 @@ int** fn_GenBomb(int* ip_BI){
     for(int i_Ct= 0; i_Ct< 10; i_Ct++){
         for(int i_Ct2=1; i_Ct2<=9; i_Ct2++){
             int i_Ind           = ip_BI[i_Ct];
+            int i_Tmp       =  i_Ind / 10;
+            int i_Tmp2      =  -1;
             switch(i_Ct2){
                 case 1:
                     i_Ind       -= 11;
+                    i_Tmp2      = i_Ind / 10;
+                    i_Ind       = ((i_Tmp - 1) != i_Tmp2)? -1: i_Ind;
                     break;
                 case 2:
                     i_Ind       -= 10;
                     break;
                 case 3:
                     i_Ind       -= 9;
+                    i_Tmp2      = i_Ind / 10;
+                    i_Ind       = (i_Tmp == i_Tmp2)? -1: i_Ind;
                     break;
                 case 4:
                     i_Ind       -= 1;
+                    i_Tmp2      = i_Ind / 10;
+                    i_Ind       = (i_Tmp != i_Tmp2)? -1: i_Ind;
                     break;
                 case 5:
                     break;
                 case 6:
                     i_Ind       += 1;
+                    i_Tmp2      = i_Ind / 10;
+                    i_Ind       = (i_Tmp != i_Tmp2)? -1: i_Ind;
                     break;
                 case 7:
                     i_Ind       += 9;
+                    i_Tmp2      = i_Ind / 10;
+                    i_Ind       = (i_Tmp == i_Tmp2)? -1: i_Ind;
                     break;
                 case 8:
                     i_Ind       += 10;
                     break;
                 case 9:
                     i_Ind       += 11;
+                    i_Tmp2      = i_Ind / 10;
+                    i_Ind       = ((i_Tmp + 1) != i_Tmp2)? -1: i_Ind;
                     break;
                 default:
                     exit(1);
@@ -73,12 +87,11 @@ int** fn_GenBomb(int* ip_BI){
         }
     }
 
-
     return i2p_Bomb;
 }
 
 
-void Remv2DDyArr(int** i2p_Arr, int i_Row){
+void fn_Remv2DDyArr(int** i2p_Arr, int i_Row){
     for(int i_Ct=0; i_Ct< i_Row; i_Ct++){
         delete [] i2p_Arr[i_Ct];
     }
